@@ -37,4 +37,4 @@ jobs:
           prerelease: false
           files: cfturnstile.zip
         env:
-          MY_TOKEN: ${{ secrets.MY_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
