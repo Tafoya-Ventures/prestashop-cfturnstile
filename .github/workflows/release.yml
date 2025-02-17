@@ -3,7 +3,7 @@ name: Create GitHub Release
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*'  # Triggers on version tag pushes (e.g., v1.3.0)
 
 jobs:
   release:
@@ -12,12 +12,39 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Zip Module
-        run: zip -r cfturnstile.zip cfturnstile
-        
-      - name: Create Release
+      - name: Extract Version from Tag
+        run: echo "MODULE_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      - name: Update Version in cfturnstile.php
+        run: |
+          sed -i "s/\(\$this->version = '\)[0-9]\+\.[0-9]\+\.[0-9]\+\(';)/\1${{ env.MODULE_VERSION }}\2/" cfturnstile/cfturnstile.php
+
+      - name: Commit Version Change
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git commit -am "🔄 Auto-update module version to ${{ env.MODULE_VERSION }}"
+          git push origin main
+
+      - name: Package PrestaShop Module
+        run: |
+          mkdir -p build
+          cp -r cfturnstile build/
+          cd build
+          zip -r cfturnstile.zip cfturnstile
+          mv cfturnstile.zip ../
+
+      - name: Create GitHub Release with ZIP
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ github.ref_name }}
+          name: "Release ${{ github.ref_name }}"
+          body: "Auto-generated release for ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
           files: cfturnstile.zip
-          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

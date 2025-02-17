@@ -2,7 +2,7 @@
 <module>
     <name>cfturnstile</name>
     <displayName><![CDATA[Cloudflare Turnstile Integration]]></displayName>
-    <version><![CDATA[1.2.1]]></version>
+    <version><![CDATA[1.2.0]]></version>
     <author><![CDATA[Brian Tafoya - Tafoya Ventures]]></author>
     <description><![CDATA[Adds Cloudflare Turnstile to login, registration, and contact forms.]]></description>
     <tab>front_office_features</tab>

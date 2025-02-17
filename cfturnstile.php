@@ -9,7 +9,7 @@ class CfTurnstile extends Module
     {
         $this->name = 'cfturnstile';
         $this->tab = 'front_office_features';
-        $this->version = '1.2.1';
+        $this->version = '1.2.0';
         $this->author = 'Brian Tafoya - Tafoya Ventures';
         $this->bootstrap = true;
         $this->ps_versions_compliancy = ['min' => '1.7.0.0', 'max' => _PS_VERSION_];
@@ -43,18 +43,5 @@ class CfTurnstile extends Module
     {
         $this->context->smarty->assign('turnstile_key', Configuration::get('CF_TURNSTILE_SITE_KEY'));
         return $this->display(__FILE__, 'views/templates/hook/cfturnstile.tpl');
-    }
-
-    public function validateCaptcha()
-    {
-        $token = Tools::getValue('cf-turnstile-response');
-        if (!$token) return false;
-
-        $response = file_get_contents("https://challenges.cloudflare.com/turnstile/v0/siteverify", false, stream_context_create([
-            'http' => ['method' => 'POST', 'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
-                'content' => http_build_query(['secret' => Configuration::get('CF_TURNSTILE_SECRET_KEY'), 'response' => $token])]
-        ]));
-
-        return json_decode($response, true)['success'] ?? false;
     }
 }
