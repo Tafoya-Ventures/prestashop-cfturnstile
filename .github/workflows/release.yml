@@ -25,10 +25,7 @@ jobs:
 
       - name: Package PrestaShop Module
         run: |
-          mkdir -p build
-          cp -r * build/
-          cd build
-          zip -r ../cfturnstile.zip *
+          zip -r cfturnstile.zip *
 
       - name: Create GitHub Release with ZIP
         uses: softprops/action-gh-release@v1
