@@ -18,7 +18,9 @@ jobs:
 
       - name: Update Version in cfturnstile.php
         run: |
-          sed -i "s#\(\$this->version = '\)[0-9]\\+\.[0-9]\\+\.[0-9]\\+\('#;\)#\1${{ env.MODULE_VERSION }}\2#" cfturnstile/cfturnstile.php
+          old_str="v[0-9].[0-9].[0-9]"
+          new_str="v${{ env.MODULE_VERSION }}"
+          sed -i 's#$old_str#$new_str#g' cfturnstile/cfturnstile.php
           cat cfturnstile/cfturnstile.php | grep 'this->version'
 
       - name: Commit Version Change
