@@ -23,13 +23,6 @@ jobs:
           sed -i 's#$old_str#$new_str#g' cfturnstile.php
           cat cfturnstile.php | grep 'this->version'
 
-      - name: Commit Version Change
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git commit -am "🔄 Auto-update version to ${{ env.MODULE_VERSION }}"
-          git push origin main
-
       - name: Package PrestaShop Module
         run: |
           mkdir -p build
