@@ -3,7 +3,7 @@ name: Create GitHub Release
 on:
   push:
     tags:
-      - 'v*'  # Triggers on version tag pushes (e.g., v1.3.0)
+      - 'v*'  # Triggers on "v1.2.4"
 
 jobs:
   release:
@@ -21,6 +21,7 @@ jobs:
       - name: Update Version in cfturnstile.php
         run: |
           sed -i "s/\(\$this->version = '\)[0-9]\+\.[0-9]\+\.[0-9]\+\(';)/\1${{ env.MODULE_VERSION }}\2/" cfturnstile/cfturnstile.php
+          cat cfturnstile/cfturnstile.php | grep 'this->version'
 
       - name: Commit Version Change
         run: |
@@ -42,7 +43,7 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           name: "Release ${{ github.ref_name }}"
-          body: "Auto-generated release for ${{ github.ref_name }}"
+          body: "Auto-generated release for version ${{ github.ref_name }}"
           draft: false
           prerelease: false
           files: cfturnstile.zip
