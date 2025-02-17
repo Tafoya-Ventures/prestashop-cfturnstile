@@ -1,4 +1,4 @@
-# Cloudflare Turnstile for PrestaShop
+# Cloudflare Turnstile for PrestaShop v1.7.8+
 
 Protects Register, Login, and Contact forms using Cloudflare Turnstile.
 
@@ -16,3 +16,5 @@ Protects Register, Login, and Contact forms using Cloudflare Turnstile.
 MIT License.
 
 ### Developed by Tafoya Ventures - [tafoyaventures.com](https://tafoyaventures.com)
+
+Enjoy! :)
