@@ -1,0 +1,23 @@
+name: Create GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Zip Module
+        run: zip -r cfturnstile.zip cfturnstile
+        
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: cfturnstile.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
