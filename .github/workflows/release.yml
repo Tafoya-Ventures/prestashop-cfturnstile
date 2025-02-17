@@ -20,8 +20,8 @@ jobs:
         run: |
           old_str="v[0-9].[0-9].[0-9]"
           new_str="v${{ env.MODULE_VERSION }}"
-          sed -i 's#$old_str#$new_str#g' cfturnstile/cfturnstile.php
-          cat cfturnstile/cfturnstile.php | grep 'this->version'
+          sed -i 's#$old_str#$new_str#g' cfturnstile.php
+          cat cfturnstile.php | grep 'this->version'
 
       - name: Commit Version Change
         run: |
@@ -33,9 +33,9 @@ jobs:
       - name: Package PrestaShop Module
         run: |
           mkdir -p build
-          cp -r cfturnstile build/
+          cp -r build/
           cd build
-          zip -r cfturnstile.zip cfturnstile
+          zip -r cfturnstile.zip *
           mv cfturnstile.zip ../
 
       - name: Create GitHub Release with ZIP
