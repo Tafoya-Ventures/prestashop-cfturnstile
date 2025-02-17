@@ -3,7 +3,7 @@ name: Create GitHub Release
 on:
   push:
     tags:
-      - 'v*'  # Trigger when version tag like "v1.2.5" is pushed
+      - 'v*'
 
 jobs:
   release:
@@ -18,7 +18,7 @@ jobs:
 
       - name: Update Version in cfturnstile.php
         run: |
-          sed -i 's/\(\$this->version = \)'\''[0-9]\+\.[0-9]\+\.[0-9]\+'\'')/\1'\''${{ env.MODULE_VERSION }}'\''/' cfturnstile/cfturnstile.php
+          sed -i "s#\(\$this->version = '\)[0-9]\+\.[0-9]\+\.[0-9]\+\(';)#\1${{ env.MODULE_VERSION }}\2#" cfturnstile/cfturnstile.php
           cat cfturnstile/cfturnstile.php | grep 'this->version'
 
       - name: Commit Version Change
